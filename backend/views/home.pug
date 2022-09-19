@@ -1,0 +1,10 @@
+html 
+  head 
+    title= title 
+    link(rel="stylesheet" href="/static/css/home.css")
+  body 
+    h1 Blogs 
+    ol(class="blogs-list") 
+      each blog in blogs
+        li
+          a(href="/blogs")= blog.title

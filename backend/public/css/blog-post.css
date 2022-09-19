@@ -1,0 +1,21 @@
+.blog-post .block {
+  padding: 12px;
+}
+
+.blog-post .block>label {
+  display: block;
+}
+
+.blog-post .block>input {
+  width: 500px;
+  line-height: 22px;
+  margin-top: 8px;
+}
+
+.blog-post .block>textarea {
+  margin-top: 8px;
+}
+
+.blog-post .save-button {
+  margin: 15px 0 0 12px;
+}
