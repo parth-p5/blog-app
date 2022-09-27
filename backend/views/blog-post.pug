@@ -1,6 +1,6 @@
 html 
   head 
-    title= title 
+    title= pageTitle 
     link(rel="stylesheet" href="/static/css/blog-post.css")
   body 
     form(class="blog-post" action="/blogs/post" method="POST")
@@ -12,6 +12,8 @@ html
           placeholder="Blog title"
           value= title
         )
+        if titleError
+          span(class="error")= titleError
       div(class="block") 
         label(for="content") Content 
         textarea(
@@ -19,6 +21,7 @@ html
           cols="60"
           rows="20"
           placeholder="Blog content"
-          value= content
-        )
+        )= content
+        if contentError
+          span(class="error")= contentError
       button(type="submit" class="save-button") Save Post

@@ -19,3 +19,10 @@
 .blog-post .save-button {
   margin: 15px 0 0 12px;
 }
+
+.blog-post .error {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: red;
+}
