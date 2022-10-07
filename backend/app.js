@@ -1,7 +1,9 @@
 const path = require("path");
 const express = require("express");
+require('dotenv').config();
 const bodyParser = require("body-parser");
 const BlogsRoutes = require("./routes/blog");
+const connectToDB = require('./utils/dbsetup');
 const app = express();
 
 app.use(bodyParser.json());
@@ -26,6 +28,10 @@ app.get("/health", (req, res) => {
 });
 
 app.use('/blogs', BlogsRoutes);
+
+// Establish connection with DB
+connectToDB();
+
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, (req, res) => console.log(`App is listening to port ${PORT}`));
