@@ -1,9 +1,11 @@
 const express = require("express");
 const axios = require("axios");
 const { body, validationResult } = require("express-validator");
-const router = new express.Router();
-
 const redis = require("redis");
+const { getBlogsCollection } = require("../db/conn");
+const { ObjectId } = require("bson");
+
+const router = new express.Router();
 
 let redisClient;
 
@@ -52,27 +54,10 @@ async function getBlogData(req, res) {
 
 router.get("/redis", getBlogData);
 
-const BLOGS = [
-  {
-    title: "Blog 1",
-    content: "Something amazing",
-  },
-  {
-    title: "Blog 2",
-    content: "Something amazing",
-  },
-  {
-    title: "Blog 3",
-    content: "Something amazing",
-  },
-  {
-    title: "Blog 4",
-    content: "Something amazing",
-  },
-];
-
-router.get("/", (req, res) => {
-  res.render("home", { pageTitle: "Feed", blogs: BLOGS });
+router.get("/", async (req, res) => {
+  const blogsCollection = getBlogsCollection();
+  let blogs = await blogsCollection.find().toArray();
+  res.render("home", { pageTitle: "Feed", blogs: blogs });
 });
 
 router.get("/post", (req, res) => {
@@ -104,5 +89,12 @@ router.post(
     res.redirect("/blogs");
   }
 );
+
+router.get("/:blogId", async (req, res) => {
+  const { blogId } = req.params;
+  const blogsCollection = getBlogsCollection();
+  let blog = await blogsCollection.findOne({ "_id": new ObjectId(blogId) });
+  res.render("blog-detail", { pageTitle: blog.title, blog: blog });
+});
 
 module.exports = router;

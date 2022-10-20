@@ -3,7 +3,7 @@ const express = require("express");
 require('dotenv').config();
 const bodyParser = require("body-parser");
 const BlogsRoutes = require("./routes/blog");
-const connectToDB = require('./utils/dbsetup');
+const { connectToDB } = require('./db/conn');
 const app = express();
 
 app.use(bodyParser.json());

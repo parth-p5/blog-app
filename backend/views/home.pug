@@ -7,4 +7,4 @@ html
     ol(class="blogs-list") 
       each blog in blogs
         li
-          a(href="/blogs")= blog.title
+          a(href=`/blogs/${blog._id}`)= blog.title

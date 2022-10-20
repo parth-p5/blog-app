@@ -1,0 +1,10 @@
+html 
+  head 
+    title= pageTitle 
+    link(rel="stylesheet" href="/static/css/blog-detail.css")
+  body 
+    h1(class="blog-header")= blog.title 
+    div(class="blog-description")= blog.description
+    div(class="blog-image") 
+      img(src= blog.image_url)
+    div(class="blog-content")= blog.content
