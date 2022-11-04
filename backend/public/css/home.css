@@ -14,3 +14,11 @@ h1 {
 .blogs-list>li>a {
   color: #528FF0;
 }
+
+.pagination-buttons {
+  text-align: center;
+}
+
+.pagination-buttons>button:first-child {
+  margin: 15px 25px;
+}

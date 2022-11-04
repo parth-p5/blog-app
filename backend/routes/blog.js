@@ -55,9 +55,13 @@ async function getBlogData(req, res) {
 router.get("/redis", getBlogData);
 
 router.get("/", async (req, res) => {
+  let { pageSize, page } = req.query;
+  pageSize = pageSize ? parseInt(pageSize) : 3;
+  page = page ? parseInt(page) : 0;
+
   const blogsCollection = getBlogsCollection();
-  let blogs = await blogsCollection.find().toArray();
-  res.render("home", { pageTitle: "Feed", blogs: blogs });
+  let blogs = await blogsCollection.find().limit(pageSize).skip(pageSize * page).sort({'created_at': -1}).toArray();
+  res.render("home", { pageTitle: "Feed", blogs: blogs, page: page });
 });
 
 router.get("/post", (req, res) => {
@@ -67,25 +71,39 @@ router.get("/post", (req, res) => {
 router.post(
   "/post",
   body("title").isLength({ min: 10 }),
+  body("description").isLength({ min: 20 }),
+  body("image_url").exists(),
   body("content").isLength({ min: 100 }),
-  (req, res) => {
+  async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      const { title, content } = req.body;
+      const { title, content, description, image_url } = req.body;
       const errorArr = errors.array();
-      let titleError, contentError;
+      let titleError, contentError, descriptionError, imageUrlError;
       errorArr.forEach((item) => {
         if (item.param === "title") titleError = item.msg;
         else if (item.param === "content") contentError = item.msg;
+        else if (item.param === "description") descriptionError = item.msg;
+        else if (item.param === "image_url") imageUrlError = item.msg;
       });
       return res.render("blog-post", {
         pageTitle: "Post Blog",
         title,
         content,
+        description,
+        image_url,
         titleError,
         contentError,
+        descriptionError,
+        imageUrlError,
       });
     }
+    const blogsCollection = getBlogsCollection();
+    const newBlog = req.body;
+    newBlog.created_at = new Date();
+    newBlog.updated_at = new Date();
+    newBlog.user = "";
+    await blogsCollection.insertOne(req.body);
     res.redirect("/blogs");
   }
 );

@@ -2,9 +2,13 @@ html
   head 
     title= pageTitle 
     link(rel="stylesheet" href="/static/css/home.css")
+    script(src="/static/js/home.js") 
   body 
     h1 Blogs 
     ol(class="blogs-list") 
       each blog in blogs
         li
           a(href=`/blogs/${blog._id}`)= blog.title
+    div(class="pagination-buttons") 
+      button(type='button' disabled=page === 0 onclick='prevBtn(' + page + ')') Prev
+      button(type='button' onclick='nextBtn(' + page + ')') Next

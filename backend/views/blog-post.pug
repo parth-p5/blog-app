@@ -15,6 +15,26 @@ html
         if titleError
           span(class="error")= titleError
       div(class="block") 
+        label(for="description") Description 
+        textarea(
+          name="description"
+          cols="60"
+          rows="7"
+          placeholder="Blog description"
+        )= description
+        if descriptionError
+          span(class="error")= descriptionError
+      div(class="block") 
+        label(for="image_url") Image URL 
+        input(
+          type="text"
+          name="image_url"
+          placeholder="Blog title"
+          value= image_url
+        )
+        if imageUrlError
+          span(class="error")= imageUrlError
+      div(class="block") 
         label(for="content") Content 
         textarea(
           name="content"

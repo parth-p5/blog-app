@@ -6,17 +6,14 @@ const uri = `mongodb+srv://admin:${password}@cluster0.ldermok.mongodb.net/?retry
 // Database Name
 const dbName = "blogapp";
 
-let blogsCollection;
+let connect;
 
 function connectToDB() {
   MongoClient.connect(uri)
     .then((client) => {
       console.log('Connected successfully to mongodb server');
 
-      const connect = client.db(dbName);
-
-      // Connect to collection
-      blogsCollection = connect.collection("blogs");
+      connect = client.db(dbName);
     })
     .catch((err) => {
       // Printing the error message
@@ -27,6 +24,9 @@ function connectToDB() {
 module.exports = {
   connectToDB,
   getBlogsCollection: function() {
+    // Connect to collection
+    const blogsCollection = connect.collection("blogs");
+
     return blogsCollection;
   },
 };
